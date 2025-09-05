@@ -1,0 +1,24 @@
+[project]
+name = "audio-transcribe-and-summarize"
+version = "0.1.0"
+description = ""
+authors = [{ name = "Samuel Stidham", email = "dqfan2012@gmail.com" }]
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "openai-whisper[cuda] (>=20250625,<20250626)",
+    "ollama (>=0.5.3,<0.6.0)",
+]
+
+[tool.poetry]
+packages = [{ include = "audio_transcribe_and_summarize", from = "src" }]
+
+
+[tool.poetry.group.dev.dependencies]
+black = "^25.1.0"
+autopep8 = "^2.3.2"
+yapf = "^0.43.0"
+
+[build-system]
+requires = ["poetry-core>=2.0.0,<3.0.0"]
+build-backend = "poetry.core.masonry.api"
