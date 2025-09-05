@@ -47,6 +47,20 @@ git clone [https://github.com/dqfan2012/audio-transcribe-and-summarize.git](http
 cd audio-transcribe-and-summarize
 ```
 
+#### A Note on Hardware (CUDA vs. CPU)
+
+This project is developed on a system with an NVIDIA GPU and is configured by default to use CUDA for accelerated performance.
+
+The openai-whisper[cuda] dependency in the pyproject.toml file is for GPU-powered transcription. If you do not have an NVIDIA GPU, or wish to use your CPU, you must make a small change before installing.
+
+1. Open the pyproject.toml file.
+2. Find the line: openai-whisper[cuda] = "..."
+3. Remove [cuda] so the line reads: openai-whisper = "..."
+
+This will install the CPU-only version of Whisper, which is compatible with all systems but will be slower.
+
+#### Install Dependencies
+
 Install the dependencies using Poetry:
 
 ```bash
