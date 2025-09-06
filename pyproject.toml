@@ -1,7 +1,7 @@
 [project]
 name = "audio-transcribe-and-summarize"
 version = "0.1.0"
-description = ""
+description = "A Python CLI pipeline that automates turning videos into notes. It uses FFmpeg to extract audio, OpenAI Whisper for accurate transcription, and a local Ollama LLM to create concise Markdown summaries. Ideal for processing lectures and webinars for knowledge bases like Obsidian."
 authors = [{ name = "Samuel Stidham", email = "dqfan2012@gmail.com" }]
 readme = "README.md"
 requires-python = ">=3.12"
@@ -18,6 +18,8 @@ packages = [{ include = "audio_transcribe_and_summarize", from = "src" }]
 black = "^25.1.0"
 autopep8 = "^2.3.2"
 yapf = "^0.43.0"
+pytest = "^8.4.2"
+pytest-mock = "^3.15.0"
 
 [build-system]
 requires = ["poetry-core>=2.0.0,<3.0.0"]
