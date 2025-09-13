@@ -32,7 +32,7 @@ def main():
     args = parser.parse_args()
 
     # Clear GPU cache if using CUDA
-    torch.cuda.empty_cache()
+    # torch.cuda.empty_cache()
 
     # Build the directory paths
     home_dir = os.getenv("HOME")
