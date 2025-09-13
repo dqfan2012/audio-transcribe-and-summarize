@@ -12,7 +12,7 @@ except ImportError:
 
 
 def summarize_text(
-    text_to_summarize: str, summary_output_path: str, model_name: str = "llama3.1:70b"
+    text_to_summarize: str, summary_output_path: str, model_name: str = "llama3.1"
 ) -> str:
     """
     Summarizes a block of text using a local Ollama model and saves the summary.

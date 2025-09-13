@@ -36,7 +36,7 @@ Before you begin, ensure you have the following installed on your system:
   ```bash
   ollama pull llama3.1
   ```
-  **Note**: This project is developed using the Llama 3.1 70B model, which is approximately 40GB in size. Ensure you have sufficient disk space before downloading large language models, especially those larger than 10 billion parameters.
+  **Note**: This project is developed using the Llama 3.1 8B model, which is approximately 4.9GB in size. Ensure you have sufficient disk space before downloading large language models, especially those larger than 10 billion parameters.
 
 ### Installation
 
@@ -47,27 +47,58 @@ git clone [https://github.com/dqfan2012/audio-transcribe-and-summarize.git](http
 cd audio-transcribe-and-summarize
 ```
 
-#### A Note on Hardware (CUDA vs. CPU)
+#### A Note on Hardware: A Guide for CPU & GPU Users
 
-This project is developed on a system with an NVIDIA GPU and is configured by default to use CUDA for accelerated performance.
+This project is configured by default for high-performance **NVIDIA GPUs** (like the RTX 5090 OC it was developed on) using CUDA. If you don't have a powerful GPU, you **must** follow the steps below to configure the project for CPU usage to ensure stability.
 
-The openai-whisper[cuda] dependency in the pyproject.toml file is for GPU-powered transcription. If you do not have an NVIDIA GPU, or wish to use your CPU, you must make a small change before installing.
+**To set up for CPU-only operation, follow these three steps:**
 
-1. Open the pyproject.toml file.
-2. Find the line: openai-whisper[cuda] = "..."
-3. Remove [cuda] so the line reads: openai-whisper = "..."
+---
 
-This will install the CPU-only version of Whisper, which is compatible with all systems but will be slower.
+##### Step 1: Modify Installation Dependencies (Required)
 
-#### Install Dependencies
+This is the most important step. Before running `poetry install`, you need to tell the installer you want the CPU version of the transcription library.
 
-Install the dependencies using Poetry:
+1.  Open the `pyproject.toml` file.
+2.  Find the line that looks like this: `openai-whisper[cuda] = "..."`
+3.  Remove `[cuda]` so the line reads: `openai-whisper = "..."`
+4.  Now, you can run the `poetry install` command.
+
+---
+
+##### Step 2: Explicitly Set CPU for Transcription (Recommended)
+
+To guarantee the transcription script (`whisper`) uses the CPU, make this small code change.
+
+1.  Open the file: `src/audio_transcribe_and_summarize/transcribe_audio.py`
+2.  Find the line:
+    ```python
+    model = whisper.load_model(model_size)
+    ```
+3.  Change it to:
+    ```python
+    model = whisper.load_model(model_size, device="cpu")
+    ```
+
+---
+
+##### Step 3: Force CPU for Summarization When Running (Required)
+
+The summarization tool (`Ollama`) also defaults to the GPU. To force it to use the CPU, you must add `CUDA_VISIBLE_DEVICES=""` to the **beginning** of your `run` command every time.
+
+**Example for the full pipeline:**
 
 ```bash
-poetry install
+CUDA_VISIBLE_DEVICES="" poetry run python src/audio_transcribe_and_summarize/main.py <PROJECT_NAME> <PATH_TO_VIDEO>
 ```
 
-This will create a virtual environment and install all the necessary Python libraries.
+**Example for the standalone summarizer:**
+
+```bash
+CUDA_VISIBLE_DEVICES="" poetry run python src/audio_transcribe_and_summarize/summarize_audio.py <PROJECT_NAME> <PATH_TO_TRANSCRIPT>
+```
+
+By following these three steps, you'll ensure the entire pipeline runs correctly on your CPU.
 
 ### Recommended Directory Setup
 
@@ -91,16 +122,6 @@ The primary way to use this tool is to run the full pipeline with the main scrip
 
 ```bash
 poetry run python src/audio_transcribe_and_summarize/main.py <PROJECT_NAME> <PATH_TO_VIDEO>
-```
-
-**Example:**
-
-```bash
-# Define the path to your video
-VIDEO_SOURCE="$HOME/media_workbench/SNHU/01_raw_videos/lecture_01.mp4"
-
-# Run the full pipeline
-poetry run python src/audio_transcribe_and_summarize/main.py SNHU "$VIDEO_SOURCE"
 ```
 
 The script will then:
