@@ -4,15 +4,22 @@ version = "0.1.0"
 description = "A Python CLI pipeline that automates turning videos into notes. It uses FFmpeg to extract audio, OpenAI Whisper for accurate transcription, and a local Ollama LLM to create concise Markdown summaries. Ideal for processing lectures and webinars for knowledge bases like Obsidian."
 authors = [{ name = "Samuel Stidham", email = "dqfan2012@gmail.com" }]
 readme = "README.md"
-requires-python = ">=3.12"
+requires-python = ">=3.12,<3.14"
 dependencies = [
     "openai-whisper[cuda] (>=20250625,<20250626)",
     "ollama (>=0.5.3,<0.6.0)",
+    "torch (>=2.8.0,<3.0.0)",
+    "torchvision (>=0.23.0,<0.24.0)",
 ]
 
 [tool.poetry]
 packages = [{ include = "audio_transcribe_and_summarize", from = "src" }]
 
+
+[[tool.poetry.source]]
+name = "pytorch"
+url = "https://download.pytorch.org/whl/cu129"
+priority = "explicit"
 
 [tool.poetry.group.dev.dependencies]
 black = "^25.1.0"
@@ -21,6 +28,10 @@ yapf = "^0.43.0"
 pytest = "^8.4.2"
 pytest-mock = "^3.15.0"
 
+
+[tool.poetry.dependencies]
+torch = {source = "pytorch"}
+torchvision = {source = "pytorch"}
 [build-system]
 requires = ["poetry-core>=2.0.0,<3.0.0"]
 build-backend = "poetry.core.masonry.api"
