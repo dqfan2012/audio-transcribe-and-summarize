@@ -1,6 +1,7 @@
 import argparse
 import os
 import sys
+import torch
 from .extract_audio import extract_audio
 from .transcribe_audio import transcribe_audio
 from .summarize_text import summarize_text
@@ -20,8 +21,8 @@ def main():
     parser.add_argument("video_file", help="The full path to the input video file.")
     parser.add_argument(
         "--model",
-        default="llama3.1:70b",
-        help="The Ollama model to use for summarization (default: llama3.1:70b).",
+        default="llama3.1",
+        help="The Ollama model to use for summarization (default: llama3.1).",
     )
     parser.add_argument(
         "--whisper_model",
@@ -29,6 +30,9 @@ def main():
         help="The Whisper model size to use (default: large-v2).",
     )
     args = parser.parse_args()
+
+    # Clear GPU cache if using CUDA
+    torch.cuda.empty_cache()
 
     # Build the directory paths
     home_dir = os.getenv("HOME")
