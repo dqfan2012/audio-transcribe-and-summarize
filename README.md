@@ -4,6 +4,10 @@ A powerful command-line tool to automate the process of converting video content
 
 The primary goal is to create an efficient workflow for processing video lectures, webinars, and meetings, turning them into easily searchable notes for knowledge bases like Obsidian, Notion, or any other note-taking app.
 
+## Moved Repository To
+
+This repository has been moved to [samuel-stidham/audio-transcribe-and-summarize](https://github.com/samuel-stidham/audio-transcribe-and-summarize)
+
 ## Core Features
 
 - **Audio Extraction**: Uses FFmpeg to efficiently extract high-quality audio (.wav) from various video formats (.mp4, .mkv, etc.).
